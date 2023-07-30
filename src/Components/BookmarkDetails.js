@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Reviews from "./Reviews";
+
 
 function BookmarkDetails() {
   const [bookmark, setBookmark] = useState([]);
@@ -58,6 +60,7 @@ function BookmarkDetails() {
             <button onClick={handleDelete}>Delete</button>
           </div>
         </div>
+        <Reviews />
       </article>
     </>
   );
