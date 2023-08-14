@@ -1,22 +1,23 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = process.env.REACT_APP_API_URL;
+const API = import.meta.env.VITE_API_URL;
 
 function BookmarkNewForm() {
   let navigate = useNavigate();
 
-  const addBookmark = (newBookmark) => {
-    axios
-      .post(`${API}/bookmarks`, newBookmark)
-      .then(
-        () => {
-          navigate(`/bookmarks`);
-        },
-        (error) => console.error(error)
-      )
-      .catch((c) => console.warn("catch", c));
+  const addBookmark = () => {
+    fetch(`${API}/bookmarks`, {
+      method: "POST",
+      body: JSON.stringify(bookmark),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        navigate(`/bookmarks`);
+      })
+      .catch((error) => console.error("catch", error));
   };
 
   const [bookmark, setBookmark] = useState({

@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-const API = process.env.REACT_APP_API_URL;
+const API = import.meta.env.VITE_API_URL;
 
 function BookmarkEditForm() {
   let { id } = useParams();
@@ -15,16 +14,18 @@ function BookmarkEditForm() {
     is_favorite: false,
   });
 
-  const updateBookmark = (updatedBookmark) => {
-    axios
-      .put(`${API}/bookmarks/${id}`, updatedBookmark)
-      .then(
-        () => {
-          navigate(`/bookmarks/${id}`);
-        },
-        (error) => console.error(error)
-      )
-      .catch((c) => console.warn("catch", c));
+  const updateBookmark = () => {
+    fetch(`${API}/bookmarks/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(bookmark),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        navigate(`/bookmarks/${id}`);
+      })
+      .catch((error) => console.error("catch", error));
   };
 
   const handleTextChange = (event) => {
@@ -36,10 +37,14 @@ function BookmarkEditForm() {
   };
 
   useEffect(() => {
-    axios.get(`${API}/bookmarks/${id}`).then(
-      (response) => setBookmark(response.data),
-      (error) => navigate(`/not-found`)
-    );
+    fetch(`${API}/bookmarks/${id}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJSON) => {
+        setBookmark(responseJSON);
+      })
+      .catch((error) => console.error(error));
   }, [id, navigate]);
 
   const handleSubmit = (event) => {

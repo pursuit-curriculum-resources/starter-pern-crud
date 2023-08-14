@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import Bookmark from "./Bookmark";
 
-const API = process.env.REACT_APP_API_URL;
+const API = import.meta.env.VITE_API_URL;
 
 function Bookmarks() {
   const [bookmarks, setBookmarks] = useState([]);
