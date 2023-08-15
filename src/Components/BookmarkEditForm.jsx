@@ -1,32 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_BASE_URL;
 
 function BookmarkEditForm() {
   let { id } = useParams();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [bookmark, setBookmark] = useState({
     name: "",
     url: "",
     category: "",
+    description: "",
     is_favorite: false,
   });
-
-  const updateBookmark = () => {
-    fetch(`${API}/bookmarks/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(bookmark),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
-        navigate(`/bookmarks/${id}`);
-      })
-      .catch((error) => console.error("catch", error));
-  };
 
   const handleTextChange = (event) => {
     setBookmark({ ...bookmark, [event.target.id]: event.target.value });
@@ -36,6 +23,24 @@ function BookmarkEditForm() {
     setBookmark({ ...bookmark, is_favorite: !bookmark.is_favorite });
   };
 
+  // Update a bookmark. Redirect to show view
+  const updateBookmark = () => {
+    console.log(`${API}/bookmarks/${id}`);
+
+    fetch(`${API}/bookmarks/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(bookmark),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        navigate(`/bookmarks/${id}`);
+      })
+      .catch((error) => console.error("catch", error));
+  };
+
+  // On page load, fill in the form with the bookmark data.
   useEffect(() => {
     fetch(`${API}/bookmarks/${id}`)
       .then((response) => {
@@ -45,12 +50,13 @@ function BookmarkEditForm() {
         setBookmark(responseJSON);
       })
       .catch((error) => console.error(error));
-  }, [id, navigate]);
+  }, [id]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateBookmark(bookmark, id);
+    updateBookmark();
   };
+
   return (
     <div className="Edit">
       <form onSubmit={handleSubmit}>
@@ -82,14 +88,21 @@ function BookmarkEditForm() {
           placeholder="educational, inspirational, ..."
           onChange={handleTextChange}
         />
-        <label htmlFor="is_favorite">Favorite:</label>
+        <label htmlFor="isFavorite">Favorite:</label>
         <input
-          id="is_favorite"
+          id="isFavorite"
           type="checkbox"
           onChange={handleCheckboxChange}
           checked={bookmark.is_favorite}
         />
-
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={bookmark.description}
+          onChange={handleTextChange}
+          placeholder="Describe why you bookmarked this site"
+        />
         <br />
 
         <input type="submit" />
