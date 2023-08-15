@@ -15,7 +15,7 @@ function Bookmark({ bookmark }) {
           {bookmark.name}
         </a>
       </td>
-      <td>
+      <td style={{ cursor: "alias" }}>
         <Link to={`/bookmarks/${bookmark.id}`}>✏️</Link>
       </td>
     </tr>
