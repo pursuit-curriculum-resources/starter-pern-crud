@@ -13,6 +13,10 @@ function BookmarkDetails() {
       .then((responseJSON) => setBookmark(responseJSON))
       .catch((error) => console.error(error));
   }, [id, API]);
+
+  useEffect(() => {
+    console.log(bookmark);
+  }, [bookmark.name]);
   const handleDelete = () => {
     deleteBookmark();
   };
