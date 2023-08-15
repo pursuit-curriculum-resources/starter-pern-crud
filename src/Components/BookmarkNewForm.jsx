@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_BASE_URL;
 
 function BookmarkNewForm() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const [bookmark, setBookmark] = useState({
+    name: "",
+    url: "",
+    category: "",
+    is_favorite: false,
+    description: "",
+  });
 
+  // Add a bookmark. Redirect to the index view.
   const addBookmark = () => {
     fetch(`${API}/bookmarks`, {
       method: "POST",
@@ -20,13 +28,6 @@ function BookmarkNewForm() {
       .catch((error) => console.error("catch", error));
   };
 
-  const [bookmark, setBookmark] = useState({
-    name: "",
-    url: "",
-    category: "",
-    is_favorite: false,
-  });
-
   const handleTextChange = (event) => {
     setBookmark({ ...bookmark, [event.target.id]: event.target.value });
   };
@@ -37,8 +38,9 @@ function BookmarkNewForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addBookmark(bookmark);
+    addBookmark();
   };
+
   return (
     <div className="New">
       <form onSubmit={handleSubmit}>
@@ -77,7 +79,14 @@ function BookmarkNewForm() {
           onChange={handleCheckboxChange}
           checked={bookmark.is_favorite}
         />
-
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={bookmark.description}
+          onChange={handleTextChange}
+          placeholder="Describe why you bookmarked this site"
+        />
         <br />
         <input type="submit" />
       </form>
