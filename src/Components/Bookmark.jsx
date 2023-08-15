@@ -10,12 +10,12 @@ function Bookmark({ bookmark }) {
           <span>&nbsp; &nbsp; &nbsp;</span>
         )}
       </td>
-      <td>
+    <td style={{ cursor: "alias" }}>
         <a href={bookmark.url} target="_blank" rel="noreferrer">
           {bookmark.name}
         </a>
       </td>
-      <td style={{ cursor: "alias" }}>
+      <td>
         <Link to={`/bookmarks/${bookmark.id}`}>✏️</Link>
       </td>
     </tr>
