@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Reviews from "./Reviews";
 const API = import.meta.env.VITE_BASE_URL;
 
 function BookmarkDetails() {
@@ -14,9 +15,7 @@ function BookmarkDetails() {
       .catch((error) => console.error(error));
   }, [id, API]);
 
-  useEffect(() => {
-    console.log(bookmark);
-  }, [bookmark.name]);
+  useEffect(() => {}, [bookmark.name]);
   const handleDelete = () => {
     deleteBookmark();
   };
@@ -55,6 +54,7 @@ function BookmarkDetails() {
           <button onClick={handleDelete}>Delete</button>
         </div>
       </div>
+      <Reviews />
     </article>
   );
 }
