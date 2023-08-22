@@ -35,7 +35,9 @@ function ReviewForm({ reviewDetails, handleSubmit, toggleView, children }) {
       rating: "",
       bookmark_id: id,
     });
+    console.log("what is going on");
   };
+
   return (
     <div className="Edit">
       {children}
@@ -65,6 +67,8 @@ function ReviewForm({ reviewDetails, handleSubmit, toggleView, children }) {
           min="0"
           max="5"
           step="1"
+          required
+          placeholder="Please enter value between 0 and 5"
           value={review.rating}
           onChange={handleTextChange}
         />
