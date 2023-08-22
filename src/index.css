@@ -19,11 +19,18 @@ main {
   margin: auto;
 }
 
-a {
+a,
+a:visited {
   text-decoration: none;
-  color: #8957ab;
+  color: #7015ad;
 }
-button a {
+
+a:hover {
+  color: #4b007d;
+}
+
+button a,
+button a:visited {
   color: antiquewhite;
 }
 
